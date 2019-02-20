@@ -82,7 +82,18 @@ You should get an error. As this will make the pointer point to the memory addre
 So now you might be able to understand this program:
 
 ```C
+int main() {
+	int x = 1;
+	int y = 2;
+	int *p = &x;
+	int *q = &y;
 
+	p = q;
+	*p = *p * 2;
+	printf("%d, %d\n", *q, y);
+
+	return 0;
+}
 ```
 
 And if you can understand that, you should have a crack at making the swap program work with pointers so that it prints 2.
@@ -103,3 +114,5 @@ int main () {
 	return EXIT_SUCCESS;
 }
 ```
+
+As a hint, the program will require no extra variables. But the variables as they are may have to be changed.
