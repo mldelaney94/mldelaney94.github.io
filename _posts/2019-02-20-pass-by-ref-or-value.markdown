@@ -61,7 +61,7 @@ printf("%d\n", x);
 ```
 What do you think will be printed out?
 
-3. We could use the pointer in place of p entirely
+3. We could use the pointer in place of x entirely
 ```C
 *ptr = 10;
 printf("%d\n", *ptr);
