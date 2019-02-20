@@ -69,7 +69,7 @@ printf("%d\n", *ptr);
 
 So from that maybe you've built up a small intuition:
 - & gets the address of the variable
-- * gets the value of the variable that pointer is pointing to
+- \* gets the value of the variable that pointer is pointing to
 
 So you should be able to tell from that what happens if we just do this:
 
@@ -82,6 +82,7 @@ You should get an error. As this will make the pointer point to the memory addre
 So now you might be able to understand this program:
 
 ```C
+
 ```
 
 And if you can understand that, you should have a crack at making the swap program work with pointers so that it prints 2.
