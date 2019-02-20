@@ -57,7 +57,7 @@ println("%d", *ptr);
 2. We could use the memory address of x to change x's value
 ```C
 *ptr = 10;
-printf("%d\n", p);
+printf("%d\n", x);
 ```
 What do you think will be printed out?
 
