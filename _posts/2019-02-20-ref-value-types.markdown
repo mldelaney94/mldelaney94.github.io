@@ -79,7 +79,95 @@ class Demo
 }
 ```
 
+In the code above we first assign a new WebPage to be 'equal' to the original webpage. When we do that, because a Class is a reference type by default, they are essentially pointers. As such, when we make copyOfWebPage = originalWebPage, we are really making a new pointer copyOfWebPage and giving it the address of originalWebPage to point to.
+
+As such we would expect, when we print out the string that both 'classes' (pointers) have, to get the string contained in originalWebPage.
+
+Now when we make a new webpage, this last bit was just done to nail the point home, it doesn't point to originalWebPage, so originalWebPage is unaffected by anything we do to it.
+
 
 ![originalWebPage=Original printed text](/assets/2019-02-20-ref-value-types-post/ref_types_output.jpg)
 
-So what we expect is that a copyOfWebPage should change the original page's text, as it is just pointing to the originalWebPage. But a new WebPage, being a new webpage, shoud not change the original webpage, as it is pointing to different data.
+---
+
+Now that we understand that some things are reference types and other things are value types, we have to understand how to handle these types in different situations. What if you want to use a reference type as a value type or vice versa? C sharp has the capability for this built in with the keywords 'ref', 'out' and 'params'.
+
+'ref' is for when you want to pass a value type by reference:
+
+```cs
+struct IntHolder
+{
+	public int i;
+}
+
+class Demo
+{
+	static void Main()
+	{
+		IntHolder a = new IntHolder();
+		a.i = 5;
+
+		foo(ref a);
+		Console.WriteLine(a.i);
+	}
+
+	static void foo (ref IntHolder a)
+	{
+		a.i = 10;
+	}
+}
+```
+
+So if we have a function that takes in a reference, and we input a value type as a reference, then we should get an output of 10.
+
+---
+
+Right so we have covered passing value types (structs, ints) by reference using the ref keyword. Lets think about what 'passing a reference type by value'.
+
+```cs
+class IntHolder
+{
+	public int i = 0;
+}
+
+class Demo
+{
+	static void Main()
+	{
+		IntHolder a = new IntHolder();
+		a.i = 5;
+
+		foo(a);
+		Console.WriteLine(a.i);
+	}
+
+	static void foo (IntHolder a)
+	{
+		a = new IntHolder();
+	}
+}
+```
+
+Lets think about our current intuition for this code. It should print out 0, the default value of IntHolders member. But it doesn't, it prints out 5, why is this? Well it must be because 'a' is still pointing at the same memory location as before. This would indicate that the class 'a' is copied, including its memory locations, into foo. So when we change 'a's' members, we access their locations, but we don't actually change 'a' itself. According to Jon Skeet this is the most important thing to understand from the blog post.
+
+---
+
+So there is just out and params to understand from this point on.
+
+Out is like ref, except that it creates an assumption. The assumption that the param has no value, and *must* be assigned one. Ref and out work the same, out just *requires* an assignment of value.
+
+Params allow an arbitrary number of arguments to passed into a function as a one-dimensional array. Unlike out and ref, you don't need to include params at the time the function is called, only in the function declaration. The important notes to make about params is that it allows for a function to be called even when there are 0 arguments without a problem. And that it allows for you to makeup a parameter list like this:
+
+```cs
+static public int addTwoEach(1,2,3,4,5);
+```
+
+---
+
+So this blog post was long, but we learned a few key points.
+
+1. The biggest point is that reference types are not passed by reference. They are passed by value with the same references for their members.
+
+2. Out and ref do the same thing, but out requires a declaration of value to the input param whilst ref does not (out assumes its unassigned, ref could be either).
+
+3. Params allows for an arbitrary number of arguments from 0 to infinity instead of the normal 1 to infinity.
