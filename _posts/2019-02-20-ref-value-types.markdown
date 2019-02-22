@@ -47,7 +47,7 @@ class Demonstration
 
 So what should happen here, to this value type? We should print "Original printed text", because copyOfPrintedPage, although its text is changed, is a separate object (tbh I don't know if object is the right word there).
 
-![originalPrintedPage=Original printed text](/assets/ref-value-types-post/valueTypePrintOut.jpg)
+![originalPrintedPage=Original printed text](/assets/2019-02-20-ref-value-types-post/valueTypePrintOut.jpg)
 
 ---
 
@@ -80,6 +80,6 @@ class Demo
 ```
 
 
-![originalWebPage=Original printed text](/assets/ref-value-types-post/ref_types_output.jpg)
+![originalWebPage=Original printed text](/assets/2019-02-20-ref-value-types-post/ref_types_output.jpg)
 
 So what we expect is that a copyOfWebPage should change the original page's text, as it is just pointing to the originalWebPage. But a new WebPage, being a new webpage, shoud not change the original webpage, as it is pointing to different data.
