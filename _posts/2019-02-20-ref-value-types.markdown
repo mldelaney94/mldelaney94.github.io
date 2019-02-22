@@ -40,7 +40,7 @@ class Demonstration
 		copyOfPrintedPage.Text = "Changed printed text";
 
 		Console.WriteLine ("originalPrintedPage={0}",
-							originalPrintedPage.text);
+				originalPrintedPage.text);
 	}
 }
 ```
@@ -49,4 +49,37 @@ So what should happen here, to this value type? We should print "Original printe
 
 ![originalPrintedPage=Original printed text](/assets/ref-value-types-post/valueTypePrintOut.jpg)
 
+---
 
+Now for a reference type using the class WebPage
+
+```cs
+using System;
+
+class Demo
+{
+	static void Main()
+	{
+		WebPage originalWebPage = new WebPage();
+		originalWebPage.Text = "Original web text";
+
+		WebPage copyOfWebPage = originalWebPage;
+
+		copyOfWebPage.Text = "Changed web text";
+
+		Console.WriteLine ("originalWebPage={0}",
+					originalWebPage.Text);
+
+		copyOfWebPage = new WebPage();
+		copyOfWebPage.Text = "Changed web page again";
+
+		Console.WriteLine ("originalWebPage={0}",
+					originalWebPage.Text);
+	}
+}
+```
+
+
+![originalWebPage=Original printed text](/assets/ref-value-types-post/ref_types_output.jpg)
+
+So what we expect is that a copyOfWebPage should change the original page's text, as it is just pointing to the originalWebPage. But a new WebPage, being a new webpage, shoud not change the original webpage, as it is pointing to different data.
