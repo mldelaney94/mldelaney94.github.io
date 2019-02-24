@@ -121,7 +121,10 @@ So something at this point must occur to save that variable in a safe reference.
 From the [C sharp language specification](https://www.ecma-international.org/publications/files/ECMA-ST/ECMA-334.pdf) 9.2.8 on delegate types:
 
 ```
-The closest equivalent of a delegate in C or C++ is a function pointer, but whereas a function pointer can only reference static functions, a delegate can reference both static and instance methods. In the latter case, the delegate stores not only a reference to the method's entry point, but also a reference to the object instance on which to invoke the method.
+The closest equivalent of a delegate in C or C++ is a function pointer, but whereas a function pointer can only reference static functions,
+a delegate can reference both static and instance methods.
+In the latter case, the delegate stores not only a reference to the method's entry point,
+but also a reference to the object instance on which to invoke the method.
 ```
 
 So in this case, essentially, x it getting 'promoted' from the stack to the heap. And how could it 'store' it? It would do so in a helper class, and make 'x' a field of that class (to be honest although I looked at the assembly of this myself, it wasn't clear what was going on except that it used a pointer for x).
