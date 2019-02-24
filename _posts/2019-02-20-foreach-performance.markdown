@@ -77,7 +77,7 @@ static void Main ()
 	a();
 }
 ```
-[ambiguous codes origin](https://web.archive/org/web/2015070782707/http://diditwith.net/Permalink,guid,235646ae-3476-4893-899d-105e4d48c25b.aspx). 
+[ambiguous codes origin](https://web.archive/org/web/20150707082707/http://diditwith.net/Permalink,guid,235646ae-3476-4893-899d-105e4d48c25b.aspx). 
 
 
 What does it print out?
