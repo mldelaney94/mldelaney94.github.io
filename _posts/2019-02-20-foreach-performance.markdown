@@ -112,4 +112,59 @@ static void Main()
 }
 ```
 
+Now will happen here? Note that x is now out of scope. It should not exist anymore after the function is finished calling. And yet it prints out 1. At this point an explanation I read online said it's "compiler magic". Infuriating.
 
+So something at this point must occur to save that variable in a safe reference.
+
+From the [C sharp language specification](https://www.ecma-international.org/publications/files/ECMA-ST/ECMA-334.pdf) 9.2.8 on delegate types:
+
+```
+The closest equivalent of a delegate in C or C++ is a function pointer, but whereas a function pointer can only reference static functions, a delegate can reference both static and instance methods. In the latter case, the delegate stores not only a reference to the method's entry point, but also a reference to the object instance on which to invoke the method.
+```
+
+So in this case, essentially, x it getting 'promoted' from the stack to the heap. And how could it 'store' it? It would do so in a helper class, and make 'x' a field of that class (to be honest although I looked at the assembly of this myself, it wasn't clear what was going on except that it used a pointer for x).
+
+So to the compiler the code actually looks like this:
+
+```cs
+delegate void Action();
+
+sealed class ActionClosure
+{
+	public int x;
+
+	public void AnonMethod()
+	{
+		Console.WriteLine(x);
+	}
+}
+
+static Action GetAction()
+{
+	ActionClosure closure = new ActionClosure();
+	closure.x = 0;
+
+	Action a = new Action(closure.AnonMethod);
+
+	closure.x = 1;
+	
+	return a;
+}
+
+static void Main()
+{
+	Action a = GetAction();
+
+	a();
+}
+```
+
+So at the start of the method, it creates the class "ActionClosure" (name chosen randomly), and uses references to 'x' from that class for the rest of the life of the program and the delegate 'a' is replaced with closure.AnonMethod from that same class.
+
+Okay, so now hopefully you understand what happens with a closure but might not feel up to spotting one in the wild, or using one in your code. One step at a time, we're still really just trying to understand how **lambdas** work afterall.
+
+---
+
+Great, so if the lambda doesn't close data, that is, its not required to store any data, then the compiler will probably optimise it as a static, and you will only pay for the overhead of instantiating it once.
+
+Now a normal foreach loop.
