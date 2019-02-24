@@ -38,7 +38,9 @@ Great, now to look at the performance of lambdas in foreach loops. Lambda expres
 However if there are no memory allocations then it can even be significantly faster due to a compiler optimisation. From Konrad Kokosa's book "Pro .NET Memory Management":
 
 ```
-There is an important optimisation regarding lambda expressions. If they do not close (capture) any data - most likely C# compiler will generate code to cache such a delegate instance as a static field (so it will be allocated only once, at the first usage).
+There is an important optimisation regarding lambda expressions.
+If they do not close (capture) any data - most likely C# compiler will generate code to cache such a delegate instance as a static field
+(so it will be allocated only once, at the first usage).
 ```
 
 So what does 'close' mean? This is a concept that's fully known as **closures**. And it is another poorly explained pain in the bum. 
