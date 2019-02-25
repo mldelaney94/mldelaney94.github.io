@@ -273,4 +273,4 @@ So we can see that a basic for loop is fastest? Why? Because it doesn't have to 
 Just for fun, according to the disassembly, the for loop has 55 total bytes of code, the normal foreach 129 and the lambda, 94. To be honest though, I think that its dishonest to think that that should lead to such a huge difference.
 
 
-![for performance](/assets/2019-02-20-foreach-perf/foreach_perf.LangForEachVSLambForEach-asm.pretty.md)
+![Disassembly of for loops](/assets/2019-02-20-foreach-perf/foreach_perf.LangForEachVSLambForEach-asm.pretty.md)
