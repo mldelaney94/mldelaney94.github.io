@@ -3,7 +3,7 @@ layout: post
 title: "Reference types VS value types in C#"
 ---
 
-A lot of the this post will reference John Skeet's blog posts on the subject. This is more or less written for my own understanding. Particularly I would think that jonskeet.uk/csharp/references.html would be far more beneficial for others than my blog itself.
+A lot of the this post will reference Jon Skeet's blog posts on the subject. This is more or less written for my own understanding. Particularly I would think that jonskeet.uk/csharp/references.html would be far more beneficial for others than my blog itself.
 
 ---
 
@@ -45,7 +45,7 @@ class Demonstration
 }
 ```
 
-So what should happen here, to this value type? We should print "Original printed text", because copyOfPrintedPage, although its text is changed, is a separate object (tbh I don't know if object is the right word there).
+So what should happen here, to this value type? We should print "Original printed text", because copyOfPrintedPage, although its text is changed, is a separate object.
 
 ![originalPrintedPage=Original printed text](/assets/2019-02-20-ref-value-types-post/valueTypePrintOut.jpg)
 
@@ -102,7 +102,7 @@ struct IntHolder
 
 class Demo
 {
-	static void Main()
+	public static void Main()
 	{
 		IntHolder a = new IntHolder();
 		a.i = 5;
@@ -125,14 +125,14 @@ So if we have a function that takes in a reference, and we input a value type as
 Right so we have covered passing value types (structs, ints) by reference using the ref keyword. Lets think about what 'passing a reference type by value'.
 
 ```cs
-class IntHolder
+public class IntHolder
 {
 	public int i = 0;
 }
 
 class Demo
 {
-	static void Main()
+	public static void Main()
 	{
 		IntHolder a = new IntHolder();
 		a.i = 5;
@@ -141,7 +141,7 @@ class Demo
 		Console.WriteLine(a.i);
 	}
 
-	static void foo (IntHolder a)
+	public static void foo (IntHolder a)
 	{
 		a = new IntHolder();
 	}
@@ -159,7 +159,7 @@ Out is like ref, except that it creates an assumption. The assumption that the p
 Params allow an arbitrary number of arguments to passed into a function as a one-dimensional array. Unlike out and ref, you don't need to include params at the time the function is called, only in the function declaration. The important notes to make about params is that it allows for a function to be called even when there are 0 arguments without a problem. And that it allows for you to makeup a parameter list like this:
 
 ```cs
-static public int addTwoEach(1,2,3,4,5);
+public static int addTwoEach(1,2,3,4,5);
 ```
 
 ---

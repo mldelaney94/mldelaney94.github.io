@@ -27,7 +27,7 @@ What the hell does that mean? Well, perhaps obviously from this, you have to und
 
 2. An expression tree is a tree of operators and operands and is actually difficult to explain. I recommend looking at [expression tree explanation](http://www.geeksforgeeks.org/expression-tree/). A cop-out I know but I feel like they're something to be revisited, perhaps in another blog post.
 
-3. An anonymous method is a method without a name, just a body. Delegates only have a signature, anonymous methods only have a body. So they can be combined.
+3. An anonymous method is a method without a name, just a body. Delegates only have a signature, anonymous methods only have a body. The compiler will just generate a name for you.
 
 So from that a lambda function is a function with only a body. Parts of the Enumerable class use delegate functions, making lambda's convenient for looping and in general, lambda expressions are very useful for making a function quickly and easily in a situation where a complete function is not called for and mostly with little performance decrease.
 
@@ -88,7 +88,7 @@ Well to me, it obviously prints out 1, as whether we are working by value or by 
 
 Turns out I'm right (sorry reader, couldn't leave that one entirely up to you).
 
-So this is in part a good piece of code for explaining closures. If you use a function that calls a free variable, then whatever happens to that variable will affect that function, as it has a reference to it, not a value, and it is not a parameter that can have its value copied in.
+So this is in part a good piece of code for explaining closures. If you use a function that calls a free variable, then whatever happens to that variable will affect that function, as it has a reference to it, not a value, as it is not a parameter that can have its value copied in.
 
 Now lets get a little trickier:
 
@@ -114,14 +114,15 @@ static void Main()
 }
 ```
 
-Now will happen here? Note that x is now out of scope. It should not exist anymore after the function is finished calling. And yet it prints out 1. At this point an explanation I read online said it's "compiler magic". Infuriating.
+Now what will happen here? Note that x is now out of scope. It should not exist anymore after the function is finished calling. And yet it prints out 1. At this point an explanation I read online said it's "compiler magic". Infuriating.
 
 So something at this point must occur to save that variable in a safe reference.
 
 From the [C sharp language specification](https://www.ecma-international.org/publications/files/ECMA-ST/ECMA-334.pdf) 9.2.8 on delegate types:
 
 ```
-The closest equivalent of a delegate in C or C++ is a function pointer, but whereas a function pointer can only reference static functions,
+The closest equivalent of a delegate in C or C++ is a function pointer,
+but whereas a function pointer can only reference static functions,
 a delegate can reference both static and instance methods.
 In the latter case, the delegate stores not only a reference to the method's entry point,
 but also a reference to the object instance on which to invoke the method.
@@ -173,3 +174,103 @@ Okay, so now hopefully you understand what happens with a closure but might not 
 Great, so if the lambda doesn't close data, that is, its not required to store any data, then the compiler will probably optimise it as a static, and you will only pay for the overhead of instantiating it once.
 
 Now a normal foreach loop.
+
+Foreach is a little tricky due to the fact that foreach pretty just works on anything with a public GetEnumerator() with a "bool MoveNext()" method and "? Current {get;}" property. And how it works is dependend on those implementations. For instance in a list it uses pointer to "next" and for arrays it might just use an int until it returns false (i.e. position >= length).
+
+But its reasonably fast in its default state for lists and arrays though. And that's what matters.
+
+---
+
+So now lets have a look at performance when the methods don't 'close' data. This code creates a list of 100 char long strings using a random number generator between the values 65 and 90 (ascii values) with a seed of 1. Then runs a foreach loop, a lambda foreach loop, and a for loop to remove all the characters from the stringbuilder.
+
+```cs
+using BenchmarkDotNet.Attributes;
+using BenchmarkDotNet.Running;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace foreach_perf
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            var summary = BenchmarkRunner.Run<LangForEachVSLambForEach>();
+            Console.ReadKey();
+        }
+    }
+
+    [MemoryDiagnoser]
+    [DisassemblyDiagnoser(printSource:true, printIL:true)] 
+    public class LangForEachVSLambForEach
+    {
+
+        List<StringBuilder> stringField;
+        [IterationSetup]
+        public void Setup()
+        {
+            List<StringBuilder> listOfStrings = new List<StringBuilder>();
+            Random rnd = new Random(1);
+            for(int i = 0; i < 100; i++)
+            {
+                StringBuilder randSb = makeRandSb(rnd);
+                listOfStrings.Add(randSb);
+            }
+            stringField = listOfStrings;
+        }
+
+        [Benchmark]
+        [MemoryDiagnoser]
+        public int LambForEach ()
+        {
+            stringField.ForEach(x => x.Clear());
+            return stringField.Count;
+        }
+
+        [Benchmark]
+        [MemoryDiagnoser]
+        public int For ()
+        {
+            for(int i = 0; i < stringField.Count; i++) {
+                stringField[i].Clear();
+            }
+            return stringField.Count;
+        }
+
+        [Benchmark]
+        [MemoryDiagnoser]
+        public int LangForEach ()
+        {
+            foreach (var item in stringField)
+            {
+                item.Clear();
+            }
+            return stringField.Count;
+        }
+
+        public StringBuilder makeRandSb(Random rnd)
+        {
+            StringBuilder sb = new StringBuilder(100);
+            for(int i = 0; i < 100; i++)
+            {
+                char c = (char) rnd.Next(65, 90); //ascii values
+                sb.Append(c); 
+            }
+            
+            return sb;
+        }
+    }
+}
+```
+
+![for performance](/assets/2019-02-20-foreach-perf/forMethodsBench.jpg)
+
+So we can see that a basic for loop is fastest? Why? Because it doesn't have to call "Current" and "MoveNext" for every element in the sequence like a for loop does. And we can see that lambda is faster due to the 'closure' optimisation.
+
+Just for fun, according to the disassembly, the for loop has 55 total bytes of code, the normal foreach 129 and the lambda, 94. To be honest though, I think that its dishonest to think that that should lead to such a huge difference.
+
+
+![for performance](/assets/2019-02-20-foreach-perf/foreach_perf.LangForEachVSLambForEach-asm.pretty.md)
