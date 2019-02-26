@@ -270,7 +270,19 @@ namespace foreach_perf
 
 So we can see that a basic for loop is fastest? Why? Because it doesn't have to call "Current" and "MoveNext" for every element in the sequence like a for loop does. And we can see that lambda is faster due to the 'closure' optimisation.
 
-Just for fun, according to the disassembly, the for loop has 55 total bytes of code, the normal foreach 129 and the lambda, 94. To be honest though, I think that its dishonest to think that that should lead to such a huge difference.
+Just for fun, according to the disassembly, the for loop has 55 total bytes of code, the normal foreach 129 and the lambda, 94. To be honest though, I think that its dishonest to think that that should lead to such a huge difference. The biggest difference in code performance is most likely to be memory intensive operations. For instance the easiest way to make the code faster is to make the strings shorter.
 
 
-![Disassembly of for loops](/assets/2019-02-20-foreach-perf/foreach_perf.LangForEachVSLambForEach-asm.pretty.md)
+![Disassembly of for loops](/assets/2019-02-20-foreach-perf/foreach_perf.LangForEachVSLambForEach-asm.pretty.md)  I don't know how to link just to a file yet I'll get round to it.
+
+Right so now we actually need to close some data and see which one is faster.
+
+---
+
+
+![Disassembly of for loops](/assets/2019-02-20-foreach-perf/forMethodsAllocBench/)
+
+
+So I tested it by abusing immutable strings, allocating them in the creation of a new class, then changing them in a for loop. As you can see, realistically there is a minimal difference between ForEach and ForLamb, but we'll stick with foreach for now if allocations occur in the function. 
+
+Basically due to closures, if there where many closures in a lambda foreach its performance would be degraded due to lots of promotions. However officially its probably not worth the time to optimise the whole codebase for each for loop. Instead just think before you write a lambda foreach.
