@@ -1,35 +1,39 @@
 ---
 author: Matthew Delaney
-output: pdf_document
 ---
 
-This blog post deals strictly with the idea of correlation and non-correlation in SQL.
+Queries, subqueries, correlation, non-correlated.
+
+#Query
+
+What is a query in SQL? Its basic function is to return information matching the query constraints in a new table. And they all start with select.
+
+##Subquery
+
+A subquery is a query inside a query, like a nested loop.
+
+```{SQL}
+SELECT MAX(price) FROM asx 
+WHERE price < ( SELECT MAX(price) FROM asx);
+```
+
+This subquery excludes the max salary from the data set and then finds the max salary. It is not correlated because it does not depend on the outer query and could run as a standalone query.
 
 #Correlation
-A correlated subquery runs once for each row returned by the outer query. That sounds extremely slow.
 
-The classic example is as follows:
+A correlated subquery is a query that uses information from the outer query. It is evaluated once for each row processed by the outer query, and thus is likely to be slow. 
 
-```{SQL}
-SELECT employee_number, name
-FROM employess emp
-WHERE salary > (
-	SELECT AVG(salary)
-		FROM employees
-		WHERE department = emp.department);
-```
+Now lets find the nth max salary using a correlated subquery
 
-The inner query, to find the average salary of a department, will be executed for every employee. Now yes, you could save the AVG(salary) and then it would only need to be executed once per department, but the idea here is to introduce a use case and explain why they might be slow.
-
-You don't need to have a correlated subquery only in the WHERE clause, they can appear in SELECT too:
 
 ```{SQL}
-SELECT employee_number
-	,name
-	,(SELECT AVG(salary)
-		FROM employees
-		WHERE department = emp.department) AS department_average
-	FROM employees emp;
+SELECT Id, Salary
+FROM Employee e
+WHERE 2=(SELECT COUNT(DISTINCT Salary) 
+	FROM Employee p
+	WHERE e.Salary<=p.salary)
 ```
+
+So this subquery loops through every row in Id Salary and counts the distinct number of salaries that are greater than or equal to it in that same table. If it returns 2, then it returns the row. Which means that it will have one salary greater than it and one salary equal to itself (i.e. itself). For the case of multiple same salaries the distinct keyword is used. This query took 1 minute 13 seconds to return on its first run, whilst the non-correlated query above took 75ms.
 
 
