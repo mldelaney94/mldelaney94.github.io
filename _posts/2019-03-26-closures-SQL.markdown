@@ -16,12 +16,12 @@ A slight twist on this answer can be 'for any update or insertion or deletion, w
 
 Table r(R):
 
-A | B | C | D | E
-a<sub>1</sub> | b<sub>1</sub> | c<sub>1</sub> | d<sub>1</sub> | e<sub>1</sub> | 
-a<sub>2</sub> | b<sub>1</sub> | c<sub>2</sub> | d<sub>2</sub> | e<sub>1</sub> |
-a<sub>3</sub> | b<sub>2</sub> | c<sub>1</sub> | d<sub>1</sub> | e<sub>1</sub> |
-a<sub>4</sub> | b<sub>2</sub> | c<sub>2</sub> | d<sub>2</sub> | e<sub>1</sub> |
-a<sub>5</sub> | b<sub>3</sub> | c<sub>3</sub> | d<sub>1</sub> | e<sub>1</sub> |
+A  |  B  |  C  |  D  |  E 
+a<sub>1</sub>  |  b<sub>1</sub>  |  c<sub>1</sub>  |  d<sub>1</sub>  |  e<sub>1</sub>  | 
+a<sub>2</sub>  |  b<sub>1</sub>  |  c<sub>2</sub>  |  d<sub>2</sub>  |  e<sub>1</sub>  |
+a<sub>3</sub>  |  b<sub>2</sub>  |  c<sub>1</sub>  |  d<sub>1</sub>  |  e<sub>1</sub>  |
+a<sub>4</sub>  |  b<sub>2</sub>  |  c<sub>2</sub>  |  d<sub>2</sub>  |  e<sub>1</sub>  |
+a<sub>5</sub>  |  b<sub>3</sub>  |  c<sub>3</sub>  |  d<sub>1</sub>  |  e<sub>1</sub>  |
 
 There is a definition here that will inform the rest of this section called functional dependency, which is a type of relationship between two attributes in a table.
 
