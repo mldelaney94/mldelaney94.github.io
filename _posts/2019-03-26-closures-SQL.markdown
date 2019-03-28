@@ -31,4 +31,63 @@ We say that a dependency X -> Y exists if:
 
 Basically if two tuples agree in value for the set of attributes X, they must agree for their set of attributes Y. In this case we could say that 'Y is functionally dependent on X'.
 
-So now we will use this definition to find some dependencies in the above table.
+So now we will use this definition to find some dependencies in the above table:
+
+1. A is unique for each row. So with the right A we can get any piece of info in that row. So A->B, A->C etc.
+
+2. All E values are the same. So A->E, B->E, C->E etc.
+
+3. We can summarise what information we can get from a column like this A->BCDE, meaning that with A you can get any or all of BCDE.
+
+4. But #3 can be confusing. ABCD->E is not valid. Why? Because we want to know the minimum amount of information necessary to get some other piece of information. So ABCD->E would be valid if you needed each of ABCD to access E's value. 
+
+##Deriving functional dependencies
+
+We now want to be able to generalise some ideas about functional dependencies. To find out their properties. The basic motivation of this is that some dependencies suggest the existence of other dependencies.
+
+For instance are dependencies reflexive I.E. X->X? Well just go back to the definition to see that this is trivially true.
+
+Augmentation: X->Y => XZ->YZ (2)
+
+Transivity X->Y, Y->Z => X->Z (3)
+
+Additivity X->Y, X->Z => X->YZ (4)
+
+Projectivity X->YZ=> X->Y, X->Z (5)
+
+Pseudotransitivity X->Y, YZ->W => XZ->W (6)
+
+So now lets go through an exercise:
+
+Determine validity of AB->GH given:
+		R = ABCDEFGHIJ
+
+	F = { AB->E, AG->J, BE->I, E->G, GI->H }
+
+	So we need to get AB->GH from this.
+
+	Well we know 	AB->E (given)
+	FROM E->G	AB->G (given)
+	Great, we have one half, we need AB->H to solve by additivity
+	FROM AB->AB 	AB->B (Projectivity 5)
+	FROM AB->E, AB->B AB->BE (addivity)
+	FROM BE->I	AB->I
+	FROM AB->G	AB->GI (additivity)
+	FROM GI->H	AB->H
+	FROM AB->G	AB->GH (additivity)
+
+So using these rules we can find other functional dependencies in the table.
+
+##Closures
+
+So now we know what a functional dependency is, we want to define this term **closure** and figure out its use/motivation.
+
+If we have a set X of functional dependencies (FD's), how many new FD's can we derive as above? Well whatever the answer, the largest collection of FD's possible from X is called F^+ and is called the closure of F.
+
+Closures allow us to answer two interesting questions:
+
+* Is a particular dependency X->Y derivable from F?
+* Are two sets of dependencies F and G equivalent?
+
+For the former, compute F^+ and see if X->Y is part of that set
+From the latter, compute F^+ and G^+ and see if they are equivalent. So obviously they're minorly useless as it would be like computing the 
