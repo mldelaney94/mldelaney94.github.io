@@ -92,4 +92,4 @@ Closures allow us to answer two interesting questions:
 For the former, compute F^+ and see if X -> Y is part of that set
 From the latter, compute F^+ and G^+ and see if they are equivalent. So obviously they're minorly useless as its as slow as computing a powerset of a largish set.
 
-So then how are we supposed to use closures with functional dependencies? The answer is, you don't. Instead you use the set of attributes rather than fd's. Attributes are the X and Y in X -> Y
+So then how are we supposed to use closures with functional dependencies? The answer is, you don't. Instead you use the set of attributes rather than fd's. Attributes are the X and Y in X -> Y. Basically we compute the largest set of attributes from X getting X^+, if some subset of attributes Y are in X^+ then X -> Y is in F^+.
