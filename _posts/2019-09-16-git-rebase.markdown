@@ -1,6 +1,6 @@
 ---
 layout: post
-title: **Git**
+title: "Git"
 date: 2019-09-16 
 ---
 
@@ -34,13 +34,13 @@ This is the motivation behind branches. A way to do all that said above in a con
 
 ### How do they work?
 
-Branches work by keeping a list of the codes savestates (commits). If you remember from before, each commit contains the information necessary to rollback the changes to the last commit. This is tracked through a pointer called the HEAD. When a branch is created, a new HEAD is created pointing to the commit you branched from (likely to the latest commit to the master branch in many scenarios). As commits are added to the branch, the HEAD is updated to point to the latest commit. 
+Branches work by keeping a list of the codes savestates (commits). If you remember from before, each commit contains the information necessary to rollback the changes to the last commit. This is tracked through a pointer called the HEAD. When a branch is created, a new HEAD is created pointing to the commit you branched from (likely to be the latest commit to the master branch in many scenarios). As commits are added to the branch, the HEAD is updated to point to the latest commit. 
 
-Remember that the commit themselves contain all the necessary information to actually revert changes or apply changes. As such, making a new branch should be relatively cheap, as you are not actually having to copy any files or anything like that.
+Remember that the commits themselves contain all the necessary information to actually revert changes or apply changes. As such, making a new branch should be relatively cheap, as you are not actually having to copy any files or anything like that.
 
 ### Merging Branches
 
-So when you've branched, your first 'commit' for that branch is the commit you branched from in the original branch.  This becomes your common ancestor between the two branches.
+So when you create a new branch, your first 'commit' for that branch is the commit you branched from in the original branch.  This becomes your common ancestor between the two branches.
 
 Merging basically takes the information from the last common ancestor between the two branches and blends it all together to create a new commit to the branch being merged to.
 
@@ -55,6 +55,10 @@ There is one **Git merge** variant worth discussing called Git rebase. Rebasing 
 #### Why rebase?
 
 It just allows for a cleaner Git history. The Git history will show far fewer commits. So as such it will be easier to go back through the commits if you are say looking for where a bug was introduced.
+
+# Remotes
+
+
 
 # Snapshot as of now
 
