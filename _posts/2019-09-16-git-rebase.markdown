@@ -50,22 +50,23 @@ Fast forward merging occurs when there are no changes from anyone else to the br
 
 ### Rebasing
 
-There is one **Git merge** variant worth discussing called Git rebase. Rebasing basically changes the 'last common ancestor' between two branches. For instance if you've been working off the master branch for a while and the master branch has been changed, you can rebase to the latest commit on the master branch so that your eventual merge will be smoother.
+There is one **Git merge** variant worth discussing called **Git rebase**. Rebasing basically changes the 'last common ancestor' between two branches. For instance if you've been working off the master branch for a while and the master branch has been changed, you can rebase to the latest commit on the master branch so that your eventual merge will be smoother.
 
 #### Why rebase?
 
-It just allows for a cleaner Git history. The Git history will show far fewer commits. So as such it will be easier to go back through the commits if you are say looking for where a bug was introduced.
+It just allows for a cleaner Git history. The Git history will show far fewer commits. So as such it will be easier to go back through the commits if you are looking for where a bug was introduced.
 
 # Remotes
 
+A remote is just a separate place from your local repo that hosts a version of the project that you're working on. Origin (the original place you cloned from or the first remote you added to the project) is the most common one.
 
+# Websites I collated info from:
 
-# Snapshot as of now
-
-These websites are what I'm at atm:
+Basically a bibliography:
 
 atlassian.com/Git/tutorials/using-branches/Git-merge
 https://medium.com/@talgoldfus/better-understanding-Gits-work-flow-in-order-to-properly-deal-with-merge-conflicts-part-i-760a366fc997
 http://onlywei.Github.io/explain-Git-with-d3/#commit
 https://developer.ibm.com/tutorials/d-learn-workings-Git/
 https://Git-scm.com/book/en/v2/Git-Branching-Rebasing
+https://git-scm.com/book/en/v2/Git-Basics-Working-with-Remotes
