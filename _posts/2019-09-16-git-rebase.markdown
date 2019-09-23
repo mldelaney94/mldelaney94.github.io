@@ -4,15 +4,15 @@ title: "Git"
 date: 2019-09-16 
 ---
 
-#Git's most basic concept
+# Git's most basic concept
 
 Git's commits are snapshots. A snapshot is to a repository as a screenshot is to a video. Each commit is a 'snapshot' containing the information necessary to apply or rollback the changes between snapshots.
 
-#Repository's
+# Repository's
 
 So with that Git organises its snapshots via Repositories (repo's). You will typically work with one local repo and place your code onto a remote server to save it properly.
 
-##Local
+## Local
 
 Your **local** repo consists of three "trees": Working Directory, Index/Staging area and HEAD.
 
@@ -20,7 +20,7 @@ Working directory is where the files live. Index is what files from the working 
 
 "Git add" adds untracked files to the index. "Git commit" records the changes from the last commit to this one. And "Git push" pushes that commit to the remote.
 
-##Branches
+## Branches
 
 We're gonna start off with the motivation for branches.
 
@@ -32,13 +32,13 @@ There are multiple different ways to achieve this, and they have to address ques
 
 This is the motivation behind branches. A way to do all that said above in a convenient, less risky way.
 
-###How do they work?
+### How do they work?
 
 Branches work by keeping a list of the codes savestates (commits). If you remember from before, each commit contains the information necessary to rollback the changes to the last commit. This is tracked through a pointer called the HEAD. When a branch is created, a new HEAD is created pointing to the commit you branched from (likely to the latest commit to the master branch in many scenarios). As commits are added to the branch, the HEAD is updated to point to the latest commit. 
 
 Remember that the commit themselves contain all the necessary information to actually revert changes or apply changes. As such, making a new branch should be relatively cheap, as you are not actually having to copy any files or anything like that.
 
-###Merging Branches
+### Merging Branches
 
 So when you've branched, your first 'commit' for that branch is the commit you branched from in the original branch.  This becomes your common ancestor between the two branches.
 
@@ -48,15 +48,15 @@ It does this (often) by doing a three way merge. So it compares your code to the
 
 Fast forward merging occurs when there are no changes from anyone else to the branch you're merging into. As such, its HEAD points to a direct ancestor in your branch. Therefore all you have to do is update the HEAD to point to the HEAD of the branch you're merging, as if you'd added all those commits to it itself.
 
-###Rebasing
+### Rebasing
 
 There is one "Git merge" variant worth discussing called Git rebase. Rebasing basically changes the 'last common ancestor' between two branches. For instance if you've been working off the master branch for a while and the master branch has been changed, you can rebase to the latest commit on the master branch so that your eventual merge will be smoother.
 
-####Why rebase?
+#### Why rebase?
 
 It just allows for a cleaner Git history. The Git history will show far fewer commits. So as such it will be easier to go back through the commits if you are say looking for where a bug was introduced.
 
-#Snapshot as of now
+# Snapshot as of now
 
 These websites are what I'm at atm:
 
