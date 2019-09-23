@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "Git"
+title: **Git**
 date: 2019-09-16 
 ---
 
@@ -14,11 +14,11 @@ So with that Git organises its snapshots via Repositories (repo's). You will typ
 
 ## Local
 
-Your **local** repo consists of three "trees": Working Directory, Index/Staging area and HEAD.
+Your **local** repo consists of three **trees**: Working Directory, Index/Staging area and HEAD.
 
 Working directory is where the files live. Index is what files from the working directory are being tracked. And HEAD is a pointer to a recording of the latest changes to these files.
 
-"Git add" adds untracked files to the index. "Git commit" records the changes from the last commit to this one. And "Git push" pushes that commit to the remote.
+**Git add** adds untracked files to the index. **Git commit** records the changes from the last commit to this one. And **Git push** pushes that commit to the remote.
 
 ## Branches
 
@@ -50,7 +50,7 @@ Fast forward merging occurs when there are no changes from anyone else to the br
 
 ### Rebasing
 
-There is one "Git merge" variant worth discussing called Git rebase. Rebasing basically changes the 'last common ancestor' between two branches. For instance if you've been working off the master branch for a while and the master branch has been changed, you can rebase to the latest commit on the master branch so that your eventual merge will be smoother.
+There is one **Git merge** variant worth discussing called Git rebase. Rebasing basically changes the 'last common ancestor' between two branches. For instance if you've been working off the master branch for a while and the master branch has been changed, you can rebase to the latest commit on the master branch so that your eventual merge will be smoother.
 
 #### Why rebase?
 
