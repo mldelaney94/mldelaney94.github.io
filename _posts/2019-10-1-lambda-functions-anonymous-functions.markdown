@@ -31,7 +31,7 @@ foo(message);
 
 Javascript, being single-threaded, can really only handle one function at a time. But it still, as in this case, may have to deal with multiple function calls at once. In this example, bar is being called from within foo, meaning that foo must pause until bar is finished. This is handled with a stack called the 'Execution Context Stack'. It places foo onto the stack, then bar, and when bar finishes, pops bar, and continues with foo.
 
-![checking](/assets/2019-10-1-lambda-functions-anonymous-functions/js_execution_stack_graphic)
+![checking](../assets/2019-10-1-lambda-functions-anonymous-functions/js_execution_stack_graphic)
 
 
 
