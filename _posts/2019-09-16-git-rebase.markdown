@@ -18,7 +18,7 @@ Your **local** repo consists of three **trees**: Working Directory, Index/Stagin
 
 Working directory is where the files live. Index is what files from the working directory are being tracked. And HEAD is a pointer to a recording of the latest changes to these files.
 
-**Git add** adds untracked files to the index. **Git commit** records the changes from the last commit to this one. And **Git push** pushes that commit to the remote.
+**Git add** adds a change to the staging area, telling git you want to include that change in the next commit. **Git commit** records the changes from the last commit to this one. And **Git push** pushes that commit to the remote.
 
 ## Branches
 
